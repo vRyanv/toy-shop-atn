@@ -1,0 +1,32 @@
+<div style="width: 100%;height: 4rem;background-color: white; position: fixed; z-index: 1; box-shadow: 0 2px 5px gray">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="d-flex" id="search_box_product" role="search">
+                    <input class="form-control me-2" id="txt_search_pro" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" id="btn_search_product">Search</button>
+                    <a href="/product-add"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_product_model" style="width: 8rem;margin-left: 2rem">New product</button></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container-product" style="padding-top: 5rem">
+    <% for (let i = 0; i < 100;i++){%>
+    <div class="item  col-xs-4 col-md-3">
+        <div class="thumbnail">
+            <img class="group list-group-image" src="/images/demo-product.jpg" alt="" style="width: 20rem;">
+            <div class="category mt-3">
+                <h5 class="category-name">Tables</h5>
+            </div>
+            <div class="caption" style="margin-left: 2rem; margin-top: 1rem">
+                <h6>Category: hfaskf</h6>
+                <h6>Supplier: asdjfhj</h6>
+                <h6>Price: $123</h6>
+                <h6>Quantity: $123</h6>
+                <button class="btn-success" style="transform: translateX(9rem)">delete</button>
+            </div>
+        </div>
+    </div>
+    <%}%>
+</div>
