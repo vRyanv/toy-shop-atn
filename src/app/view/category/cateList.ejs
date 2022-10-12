@@ -1,0 +1,50 @@
+<div style="width: 100%;height: 4rem;background-color: white; position: fixed; z-index: 1;">
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="d-flex" id="search_box_product" role="search">
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#new_cate_model" style="width: 8rem;margin-left: 2rem">New</button></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<div style="padding-top: 5rem">
+    <table class="table table-danger">
+        <thead>
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Category name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (let i = 0; i < cateList.length; i++){%>
+            <tr>
+                <th scope="row"><%= i + 1 %></th>
+                <td><%= cateList[i].cate_name %></td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="new_cate_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog  modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/category-add" method="post" id="cate_form">
+                <div class="modal-body">
+                    <label for="txt_sup_name">Category name</label>
+                    <input type="text" placeholder="category name" id="txt_cate_name" class="form-control mb-1" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

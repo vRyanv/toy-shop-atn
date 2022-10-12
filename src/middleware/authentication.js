@@ -1,5 +1,5 @@
-const database = require('../database/connect')
 const jwt = require('jsonwebtoken')
+const model = require("../app/model/Model");
 const tokenKey = '1234567'
 const tokenName = 'user_token'
 
@@ -9,15 +9,18 @@ class Authentication
     {
         let username = req.body.username
         let pass = req.body.password
-        database.query(`select * from users where username = '${username}' and password = '${pass}'`)
-            .then(result => {
+
+        model.getUser(username, pass).then( (result) => {
                 if (result.rowCount > 0)
                 {
-                    res.cookie(tokenName,jwt.sign({
-                        userId:result.rows[0].user_id,
-                        userRole: result.rows[0].role
-                    }, tokenKey))
-                    res.send({status:200, role: 'admin'})
+                    res.cookie(tokenName,jwt.sign(
+                        {
+                            userId:result.rows[0].user_id,
+                            shopId:result.rows[0].shop_id
+                        },
+                        tokenKey)
+                    )
+                    res.send({status:200, shopId:result.rows[0].shop_id})
                 }
                 else
                 {
@@ -29,34 +32,50 @@ class Authentication
     checkCookieAdmin(req, res, next)
     {
         try{
-            let token = req.cookies.__token_user
+            let token = req.cookies.user_token
             let decode = jwt.verify(token, tokenKey)
             req.userId = decode.userId
-            req.userRole = decode.userRole
-            if(req.userRole === '0')
-            {
-                res.render('admin/authFail.ejs')
+            req.shopId = decode.shopId
+            if(req.shopId === null){
+                res.render('createShop.ejs')
+            } else {
+                next()
             }
-            next()
         }catch (error){
-            res.render('admin/authFail.ejs')
+            res.render('authenFail.ejs')
         }
     }
 
-    checkCookieCustomer(req, res, next)
-    {
-        try{
-            let token = req.cookies.__token_user
-            let decode = jwt.verify(token, tokenKey)
-            req.userId = decode.userId
-            req.login = true
-            next()
-        }catch (error){
-            req.login = false
-            next()
-        }
-    }
+    handleCreateShop(req, res){
+        let token = req.cookies.user_token
+        let decode = jwt.verify(token, tokenKey)
+        req.userId = decode.userId
 
+        let shopName = req.body.shopName
+        let address = req.body.address
+        const handle = async() => {
+            const shop = await model.createShop(shopName, address)
+            if(shop.rowCount !== 0){
+                let shopId = shop[0].shop_id
+                const updateShopForAdmin = await model.updateShopForAdmin(shopId, req.userId)
+                if(updateShopForAdmin.rowCount !== 0){
+                    res.cookie(tokenName,jwt.sign(
+                        {
+                            userId: req.userId,
+                            shopId: shopId
+                        },
+                        tokenKey)
+                    )
+                    res.send({status:200, mess: 'create shop success'})
+                } else {
+                    res.send({status:200, mess: 'create shop fail'})
+                }
+            } else {
+                res.send({status:200, mess: 'create shop fail'})
+            }
+        }
+        handle()
+    }
 }
 
 module.exports = new Authentication
