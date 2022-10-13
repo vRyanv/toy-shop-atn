@@ -14,11 +14,11 @@ class ActionController{
    }
 
    findPro(req, res){
-      let proName = req.body.proName
-      let shopId = req.body.shopId
+      let proName = req.params.name
+      let shopId = req.shopId
       model.findPro(shopId, proName).then((result) => {
          if(result.rowCount !== 0){
-            res.send({status:200, product: result.rows})
+            res.send({status:200, product: result})
          } else {
             res.send({status:404, mess: 'Not found product'})
          }

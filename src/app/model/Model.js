@@ -33,7 +33,7 @@ class Model{
                                       p.pro_name,
                                       p.pro_image,
                                       p.pro_price,
-                                      p.inventory
+                                      p.quantity
                                from product as p,
                                     category as c,
                                     supplier as s

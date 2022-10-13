@@ -92,4 +92,50 @@ $(document).ready(function (){
             }
         })
     })
+
+    $('#btn_search_product').click(function (){
+       let proName =  $('#txt_search_pro').val()
+        if(proName !== ''){
+            $.ajax({
+                url: '/product-find/'+proName,
+                type: 'GET',
+                beforeSend: animation(),
+                success: function (data){
+                    if(data.status === 200){
+                        renderProductFound(data.product)
+                    } else {
+                        animation()
+                        alert('Not found')
+                    }
+                }
+            })
+        }
+    })
+
+    function renderProductFound(product){
+        var proList = ''
+        for (let i = 0; i < product.length; i++) {
+            var productHTML = ` 
+        <div class="item  col-xs-4 col-md-3">
+            <div class="thumbnail">
+                <img class="group list-group-image" src="/images/${product[0].pro_image}" alt="" style="width: 20rem;">
+                <div class="category mt-3">
+                    <h5 class="category-name">${product[0].pro_name}</h5>
+                </div>
+                <div class="caption" style="margin-left: 2rem; margin-top: 1rem">
+                    <h6>Category: ${product[0].cate_name}</h6>
+                    <h6>Supplier: ${product[0].sup_name}</h6>
+                    <h6>Price: ${product[0].pro_price}</h6>
+                    <h6>Quantity: ${product[0].quantity}</h6>
+                </div>
+                <div style="float: right; margin-right: 1rem"><button class="btn btn-warning btn-delete-pro" data-pro-id="${product[0].pro_id}">Delete</button></div>
+            </div>
+        </div>`
+            proList += productHTML
+        }
+
+        $('.container-product').empty()
+        $('.container-product').append(proList)
+        animation()
+    }
 })

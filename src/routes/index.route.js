@@ -21,7 +21,7 @@ function route(app)
     app.get('/product', (req, res, next) => authentication.checkCookieAdmin(req, res, next), (req, res) => actionController.viewPro(req, res))
     app.post('/product-add', (req, res, next) => authentication.checkCookieAdmin(req, res, next),  upload.single('proImage'), (req, res) => actionController.createPro(req,res))
     app.delete('/product-delete', (req, res, next) => authentication.checkCookieAdmin(req, res, next), (req, res) => actionController.deletePro(req,res))
-    app.get('/product-find', (req, res) => actionController.findPro(req,res))
+    app.get('/product-find/:name', (req, res, next) => authentication.checkCookieAdmin(req, res, next), (req, res) => actionController.findPro(req,res))
 
     //category
     app.get('/category', (req, res, next) => authentication.checkCookieAdmin(req, res, next),(req, res) => actionController.viewCate(res))
