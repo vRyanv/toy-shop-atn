@@ -136,6 +136,10 @@ $(document).ready(function (){
 
         $('.container-product').empty()
         $('.container-product').append(proList)
+        $('.btn-delete-pro').click(function (){
+            proId = $(this).data('pro-id')
+            $('#btn_show_confirm_delete').click()
+        })
         animation()
     }
 })
