@@ -1,7 +1,7 @@
 const model = require('../model/Model')
 
 class PageController{
-    dashboard(res){
+    dashboard(req, res){
         res.redirect('/product')
     }
 
@@ -14,7 +14,7 @@ class PageController{
         res.redirect('/login')
     }
 
-    page404(res){
+    page404(req, res){
         res.render('404.ejs')
     }
 

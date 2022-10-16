@@ -89,7 +89,7 @@ class Model{
     updateShopForAdmin(shopId, userId){
         return database.query(`update users set shop_id = ${shopId} where user_id = ${userId} `)
             .then((result) => {
-            return result.rows
+            return result.rowCount
         })
     }
 

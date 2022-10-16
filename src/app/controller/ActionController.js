@@ -60,7 +60,7 @@ class ActionController{
       })
    }
 
-   viewCate(res){
+   viewCate(req, res){
       model.getCate().then((category) => {
          res.render('dashboard', {target:'category', cateList:category})
       })

@@ -10,23 +10,19 @@ const database = require("./database/connect");
 //         console.log(result)
 //         data.end()
 //     })
-// data.query('select * from shop')
-//     .then(result => console.log(result))
-//     .then(data.end())
 data.query('select * from users')
-    .then( (result) => {
-        console.log(result)
-        data.end()
-    })
-// let product = {
-//     name: 'asdf',
-//     cateId: 6,
-//     supId: 1,
-//     image: 'asdasd',
-//     price: 1,
-//     quantity: 1,
-// }
-// database.query(`insert into product(cate_id, shop_id, sup_id, pro_name, pro_image, pro_price, quantity)
-//                                                  values (${product.cateId}, 12, ${product.supId},
-//                                                          '${product.name}', '${product.image}',
-//                                                          '${product.price}', ${product.quantity})`)
+    .then(result => console.log(result.rows))
+    // .then(data.end())
+// data.query('delete from users where user_id = 5')
+//     .then( (result) => {
+//         console.log(result.rows)
+//         // data.end()
+//     })
+// database.query(`insert into users (username, password) values ('admin4', '123123') returning *`)
+//     .then((result) => {
+//         console.log(result.rows)
+//     })
+
+data.end()
+
+nói tới recate shop

@@ -22,7 +22,7 @@ $(document).ready(function (){
             },
             error: function (){
                 animation()
-                alert('Something wrong! ')
+                alert('Something wrong!')
             }
         })
     }

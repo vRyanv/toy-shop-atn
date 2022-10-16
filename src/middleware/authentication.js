@@ -11,19 +11,11 @@ class Authentication
         let pass = req.body.password
 
         model.getUser(username, pass).then( (result) => {
-                if (result.rowCount > 0)
-                {
-                    res.cookie(tokenName,jwt.sign(
-                        {
-                            userId:result.rows[0].user_id,
-                            shopId:result.rows[0].shop_id
-                        },
-                        tokenKey)
-                    )
+                if (result.rowCount > 0) {
+                    let cookieValue = jwt.sign({userId:result.rows[0].user_id, shopId:result.rows[0].shop_id}, tokenKey)
+                    res.cookie(tokenName, cookieValue)
                     res.send({status:200, shopId:result.rows[0].shop_id})
-                }
-                else
-                {
+                } else {
                     res.send({status:400})
                 }
             })
@@ -55,10 +47,10 @@ class Authentication
         let address = req.body.address
         const handle = async() => {
             const shop = await model.createShop(shopName, address)
-            if(shop.rowCount !== 0){
+            if(shop.length !== 0){
                 let shopId = shop[0].shop_id
                 const updateShopForAdmin = await model.updateShopForAdmin(shopId, req.userId)
-                if(updateShopForAdmin.rowCount !== 0){
+                if(updateShopForAdmin !== 0){
                     res.cookie(tokenName,jwt.sign(
                         {
                             userId: req.userId,
@@ -68,10 +60,10 @@ class Authentication
                     )
                     res.send({status:200, mess: 'create shop success'})
                 } else {
-                    res.send({status:200, mess: 'create shop fail'})
+                    res.send({status:400, mess: 'create shop fail'})
                 }
             } else {
-                res.send({status:200, mess: 'create shop fail'})
+                res.send({status:400, mess: 'create shop fail'})
             }
         }
         handle()
