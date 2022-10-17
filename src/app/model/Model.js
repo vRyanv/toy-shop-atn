@@ -46,12 +46,11 @@ class Model{
             })
     }
 
-    createPro(shopId, product){
-        console.log(product)
-          return  database.query(`insert into product(cate_id, shop_id, sup_id, pro_name, pro_image, pro_price, quantity)
-                                                 values (${product.cateId}, ${shopId}, ${product.supId},
-                                                         '${product.name}', '${product.image}',
-                                                         '${product.price}', ${product.quantity})`)
+    createPro(shopId, product) {
+        return database.query(`insert into product(cate_id, shop_id, sup_id, pro_name, pro_image, pro_price, quantity)
+                               values (${product.cateId}, ${shopId}, ${product.supId},
+                                       '${product.name}', '${product.image}',
+                                       '${product.price}', ${product.quantity})`)
     }
 
     deletePro(proId){
@@ -63,8 +62,7 @@ class Model{
 
     //category
     getCate(){
-        return database.query(`select * from category`)
-            .then((result) => {
+        return database.query(`select * from category`).then((result) => {
                 return result.rows
             })
     }

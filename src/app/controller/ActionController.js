@@ -17,7 +17,7 @@ class ActionController{
       let proName = req.params.name
       let shopId = req.shopId
       model.findPro(shopId, proName).then((result) => {
-         if(result.rowCount !== 0){
+         if(result.length !== 0){
             res.send({status:200, product: result})
          } else {
             res.send({status:404, mess: 'Not found product'})
@@ -50,19 +50,19 @@ class ActionController{
    deletePro(req, res){
       let proId = req.body.proId
       model.deletePro(proId).then((result) => {
-         if(result.rowCount !== 0){
+         if(result.length !== 0){
             unlink('src/public/images/'+ result[0].pro_image, (err) => {
                res.send({status:200, mess: 'delete product success'})
             });
          } else {
-            res.send({status:200, mess: 'delete product fail'})
+            res.send({status:400, mess: 'delete product fail'})
          }
       })
    }
 
    viewCate(req, res){
       model.getCate().then((category) => {
-         res.render('dashboard', {target:'category', cateList:category})
+         res.render('dashboard.ejs', {target:'category', cateList:category})
       })
    }
 

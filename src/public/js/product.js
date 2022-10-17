@@ -4,7 +4,7 @@ $(document).ready(function (){
         if($('#pro_img').val() !== ''){
             handleCreatePro(this)
         } else {
-            $('#lb_img').html('Image (require)')
+            $('#lb_img').html('Image required')
             $('#lb_img').css('color','red')
         }
     })
@@ -73,8 +73,9 @@ $(document).ready(function (){
 
     $('#btn_ok_delete').click(function (){
         $('.btn-close').click()
+        //XMLHttpRequest
         $.ajax({
-            url: 'product-delete',
+            url: '/product-delete',
             type: 'DELETE',
             data: {proId},
             beforeSend: animation(),
@@ -118,17 +119,17 @@ $(document).ready(function (){
             var productHTML = ` 
         <div class="item  col-xs-4 col-md-3">
             <div class="thumbnail">
-                <img class="group list-group-image" src="/images/${product[0].pro_image}" alt="" style="width: 20rem;">
+                <img class="group list-group-image" src="/images/${product[i].pro_image}" alt="" style="width: 20rem; height: 15rem">
                 <div class="category mt-3">
-                    <h5 class="category-name">${product[0].pro_name}</h5>
+                    <h5 class="category-name">${product[i].pro_name}</h5>
                 </div>
                 <div class="caption" style="margin-left: 2rem; margin-top: 1rem">
-                    <h6>Category: ${product[0].cate_name}</h6>
-                    <h6>Supplier: ${product[0].sup_name}</h6>
-                    <h6>Price: ${product[0].pro_price}</h6>
-                    <h6>Quantity: ${product[0].quantity}</h6>
+                    <h6>Category: ${product[i].cate_name}</h6>
+                    <h6>Supplier: ${product[i].sup_name}</h6>
+                    <h6>Price: ${product[i].pro_price}</h6>
+                    <h6>Quantity: ${product[i].quantity}</h6>
                 </div>
-                <div style="float: right; margin-right: 1rem"><button class="btn btn-warning btn-delete-pro" data-pro-id="${product[0].pro_id}">Delete</button></div>
+                <div style="float: right; margin-right: 1rem"><button class="btn btn-warning btn-delete-pro" data-pro-id="${product[i].pro_id}">Delete</button></div>
             </div>
         </div>`
             proList += productHTML
