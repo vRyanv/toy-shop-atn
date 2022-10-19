@@ -5,8 +5,10 @@ const upload = require('../middleware/saveImage')
 
 function route(app)
 {
-    //default
-    app.get('/', pageController.dashboard)
+    //client
+    app.get('/', pageController.home)
+    app.get('/gallery', pageController.gallery)
+    app.get('/search-pro-client/:name', pageController.searchProForCust)
 
     //login
     app.get('/login', pageController.login)

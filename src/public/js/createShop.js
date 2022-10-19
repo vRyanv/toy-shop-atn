@@ -28,7 +28,7 @@ $(document).ready(function (){
     }
 
     function animation(){
-        if($('.overplay-animation').css('display') == 'none')
+        if($('.overplay-animation').css('display') === 'none')
         {
             $('.overplay-animation').css('display', 'block')
         }

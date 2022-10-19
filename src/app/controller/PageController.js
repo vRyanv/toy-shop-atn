@@ -1,8 +1,8 @@
 const model = require('../model/Model')
 
 class PageController{
-    dashboard(req, res){
-        res.redirect('/product')
+    home(req, res){
+        res.render('home.ejs')
     }
 
     login(req, res){
@@ -20,6 +20,24 @@ class PageController{
 
     getCreateShop(req, res){
         res.render('createShop.ejs')
+    }
+
+    gallery(req, res){
+        model.getGallery().then((result) => {
+            res.render('gallery.ejs', {proList: result})
+        })
+    }
+
+    searchProForCust(req, res){
+        let proName = req.params.name
+        model.searchProForCust(proName).then((result) => {
+            if(result.length !== 0){
+                res.send({status:200, proList: result})
+            } else {
+                res.send({status:400, mess: 'Not found product'})
+            }
+
+        })
     }
 
 }

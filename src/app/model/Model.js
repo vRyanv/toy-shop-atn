@@ -11,6 +11,7 @@ class Model{
         return database.query(`select p.pro_id,
                                       c.cate_name,
                                       s.sup_name,
+                                      (select shop_name from shop where shop_id = ${shopId}) as shop_name,
                                       p.pro_name,
                                       p.pro_image,
                                       p.pro_price,
@@ -93,6 +94,49 @@ class Model{
 
     createShop(shopName, address){
         return database.query(`insert into shop(shop_name, shop_address) values ('${shopName}', '${address}') returning *`)
+            .then((result) => {
+                return result.rows
+            })
+    }
+
+    getGallery(){
+        return database.query(`select p.pro_id,
+                                      c.cate_name,
+                                      s.sup_name,
+                                      sp.shop_name, 
+                                      p.pro_name,
+                                      p.pro_image,
+                                      p.pro_price,
+                                      p.quantity
+                               from product as p,
+                                    category as c,
+                                    supplier as s,
+                                    shop as sp
+                               where c.cate_id = p.cate_id
+                                 and p.sup_id = s.sup_id
+                                 and p.shop_id = sp.shop_id`)
+            .then((result) => {
+                return result.rows
+            })
+    }
+
+    searchProForCust(proName){
+        return database.query(`select p.pro_id,
+                                      c.cate_name,
+                                      s.sup_name,
+                                      sp.shop_name, 
+                                      p.pro_name,
+                                      p.pro_image,
+                                      p.pro_price,
+                                      p.quantity
+                               from product as p,
+                                    category as c,
+                                    supplier as s,
+                                    shop as sp
+                               where c.cate_id = p.cate_id
+                                 and p.sup_id = s.sup_id
+                                 and p.shop_id = sp.shop_id
+                                 and p.pro_name like '%${proName}%'`)
             .then((result) => {
                 return result.rows
             })
